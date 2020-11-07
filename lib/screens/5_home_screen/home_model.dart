@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:te2/screens/6_1_timeline_screen/timeline_setup.dart';
 import 'package:te2/screens/6_3_post_screen/post_setup.dart';
+import 'package:te2/screens/6_4_mailbox_screen/mailbox_setup.dart';
 import 'package:te2/screens/6_5_oneself_screen/oneself_setup.dart';
 
 class HomeModel extends ChangeNotifier {
@@ -26,7 +27,7 @@ class HomeModel extends ChangeNotifier {
 
   final Map _pageMap = {
     0: TimelineSetup(),
-    1: TestPageSetup(text: "chat"),
+    1: MailboxSetup(),
     2: PostSetup(),
     3: TestPageSetup(text: "activity"),
     4: OneselfSetup(),

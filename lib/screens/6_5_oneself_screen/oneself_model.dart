@@ -53,7 +53,7 @@ class OneselfModel {
     try {
       final DocumentReference documentReference =
           firestoreService.documentReference2(
-        collectionName: "My Cards",
+        collectionName: "Users",
         documentName: uid,
       );
       final CollectionReference collectionReference =

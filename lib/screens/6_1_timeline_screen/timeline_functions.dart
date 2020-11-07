@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:te2/process/4_app_process/material_app_model.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +12,7 @@ class TimelineFunctions {
     return await context.watch<TimelineModel>().getTimeline();
   }
 
-  Future<List<QueryDocumentSnapshot>> getTimelineSnapshotList(){
-    return context.watch<TimelineModel>().t
+  List<QueryDocumentSnapshot> timelineSnapshotList() {
+    return context.read<TimelineModel>().timelineSnapshotList;
   }
 }

@@ -8,13 +8,11 @@ class TimelineView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TimelineParts _parts = TimelineParts(context: context);
-    TimelineFunctions _functions = TimelineFunctions(context:context);
+    TimelineFunctions _functions = TimelineFunctions(context: context);
     TimelineContents contents =
         TimelineContents(parts: _parts, functions: _functions);
     TimelinePage page = TimelinePage();
 
-    return Scaffold(
-      body: Text("timeline"),
-    );
+    return page.page(listView: contents.timelineList());
   }
 }
