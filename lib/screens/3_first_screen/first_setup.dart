@@ -25,7 +25,7 @@ class FirstSetup extends StatelessWidget {
           future: Provider.of<FirstModel>(context, listen: false).getUserMap(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return LoadingPage(text: "FirstModel connection");
+              return LoadingPage();
             }
             if (snapshot.connectionState == ConnectionState.done) {
               bool _first = context.watch<FirstModel>().userMap["first"];

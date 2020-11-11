@@ -9,6 +9,7 @@ class TimelineSetup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
+      lazy: false,
       create: (context) => TimelineModel(
         firestoreService: context.read<MyAppModel>().firestoreService,
         uid: context.read<MaterialAppModel>().uid,

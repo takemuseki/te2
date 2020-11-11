@@ -8,9 +8,6 @@ class FirstPage {
     @required Widget submitButton,
   }) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("First Page"),
-      ),
       body: Container(
         child: Column(
           children: [

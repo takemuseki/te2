@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:te2/common/items/items.dart';
 import 'package:te2/main.dart';
 import 'package:te2/process/4_app_process/material_app_model.dart';
-import 'package:te2/screens/account_screen/account_model.dart';
-import 'package:te2/screens/account_screen/account_view.dart';
+import 'package:te2/screens/7_1_account_screen/account_model.dart';
+import 'package:te2/screens/7_1_account_screen/account_view.dart';
 
 class AccountSetup extends StatelessWidget {
   final Map<String, dynamic> accountInfo;

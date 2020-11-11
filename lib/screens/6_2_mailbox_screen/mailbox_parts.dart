@@ -49,7 +49,7 @@ class MailboxParts {
     String title = "";
     if (map.length != 0) {
       for (String key in map.keys) {
-        title = title + " (indent) " + map[key];
+        title = title + " " + map[key];
       }
     }
     return Text(title);

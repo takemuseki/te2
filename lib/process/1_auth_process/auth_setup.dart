@@ -41,14 +41,10 @@ class AuthProcess2 extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
             print("Stream none");
-            return LoadingPage(
-              text: "Stream none",
-            );
+            return LoadingPage();
           case ConnectionState.waiting:
             print("Stream waiting");
-            return LoadingPage(
-              text: "Stream waiting",
-            );
+            return LoadingPage();
           case ConnectionState.active:
             print("stream active");
             final bool temp = snapshot.hasData;

@@ -53,14 +53,7 @@ class MailboxContents {
             chatRoomId: key,
           ),
           toChatRoom: () {
-            print("mailboxTile tap");
-            /*
-            print("toChatRoom");
-            functions.toChatRoom(
-              chatRoomId: mailboxMap[key],
-            );
-
-             */
+            functions.toChatRoom(chatRoomId: key);
           },
         );
       },

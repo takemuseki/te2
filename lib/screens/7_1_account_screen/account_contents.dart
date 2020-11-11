@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:te2/screens/account_screen/account_functions.dart';
-import 'package:te2/screens/account_screen/account_model.dart';
-import 'package:te2/screens/account_screen/account_parts.dart';
+import 'package:te2/screens/7_1_account_screen/account_functions.dart';
+import 'package:te2/screens/7_1_account_screen/account_model.dart';
+import 'package:te2/screens/7_1_account_screen/account_parts.dart';
 import 'package:te2/utils/yet.dart';
 
 class AccountContents {

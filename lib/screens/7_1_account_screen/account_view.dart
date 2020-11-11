@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:te2/screens/6_4_activity_screen/activity_functions.dart';
-import 'package:te2/screens/account_screen/account_contents.dart';
-import 'package:te2/screens/account_screen/account_functions.dart';
-import 'package:te2/screens/account_screen/account_model.dart';
-import 'package:te2/screens/account_screen/account_page.dart';
-import 'package:te2/screens/account_screen/account_parts.dart';
+import 'package:te2/screens/7_1_account_screen/account_contents.dart';
+import 'package:te2/screens/7_1_account_screen/account_functions.dart';
+import 'package:te2/screens/7_1_account_screen/account_page.dart';
+import 'package:te2/screens/7_1_account_screen/account_parts.dart';
 
 class AccountView extends StatelessWidget {
   @override

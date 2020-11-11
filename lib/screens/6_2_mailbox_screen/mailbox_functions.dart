@@ -74,32 +74,10 @@ class MailboxFunctions {
   Future<dynamic> toChatRoom({
     @required String chatRoomId,
   }) async {
-    print("toChatRoom");
-    var _result = await context.read<MailboxModel>().getChatRoomContents(
-          chatRoomId: chatRoomId,
-        );
-    print(_result);
-    print("_result");
-    if (_result == "reject") {
-      return "reject";
-    } else if (_result is ChatRoomInformation) {
-      print(_result);
-      print("chatROomInformaiton");
-      yetDialog(context: context);
-      /*
-      return Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return ChatRoomPageSetup(
-              chatRoomInformation: _result,
-            );
-          },
-        ),
-      );
-
-       */
-    } else {
-      return false;
-    }
+    print("toChatRoom functions");
+    return Navigator.of(context).pushNamed(
+      '/chatPage',
+      arguments: ChatRoomInformation(chatRoomId: chatRoomId),
+    );
   }
 }

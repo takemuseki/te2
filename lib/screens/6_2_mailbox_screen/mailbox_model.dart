@@ -73,35 +73,6 @@ class MailboxModel {
     }
   }
 
-  Future<dynamic> getChatRoomContents({
-    @required String chatRoomId,
-  }) async {
-    print("getChatRoomContents");
-    print(chatRoomId);
-    try {
-      DocumentSnapshot _chatRoomDocument = await firestoreService.getDocument(
-        collectionName: "Chat Rooms",
-        documentName: chatRoomId,
-      );
-      Map<String, dynamic> _chatRoomMap = _chatRoomDocument.data();
-      Map<String, dynamic> _membersMap = _chatRoomMap.remove("members");
-      if (_membersMap[uid] == null) {
-        print("reject");
-        return "reject";
-      } else {
-        final ChatRoomInformation _chatRoomInformation = ChatRoomInformation(
-          memberMap: _membersMap,
-          contentMap: _chatRoomMap,
-          chatRoomId: chatRoomId,
-        );
-        return _chatRoomInformation;
-      }
-    } catch (e) {
-      print(e);
-      return e;
-    }
-  }
-
   Future<Map<String, dynamic>> getMailbox() async {
     try {
       DocumentSnapshot _result = await firestoreService.getDocument(

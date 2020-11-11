@@ -63,19 +63,14 @@ class AccountInformation {
   }
 }
 
-
 //ChatRoomに画面遷移する時にsetupに渡す。
 // [表示したいチャットルームをAとする]
 //memberMapにAのmemberの情報を入れる。
 //contentMapにAのcontentの情報を入れる。
 //chatRoomIdにAのchatRoomIdを入れる。
 class ChatRoomInformation {
-  final Map<String, dynamic> memberMap;
-  final Map<String, dynamic> contentMap;
   final String chatRoomId;
   ChatRoomInformation({
-    @required this.memberMap,
-    @required this.contentMap,
     @required this.chatRoomId,
   });
 }

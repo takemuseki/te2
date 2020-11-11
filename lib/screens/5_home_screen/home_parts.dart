@@ -84,6 +84,7 @@ class HomeParts {
       ],
       currentIndex: currentIndex,
       onTap: onTap,
+      type: BottomNavigationBarType.fixed,
     );
   }
 }
