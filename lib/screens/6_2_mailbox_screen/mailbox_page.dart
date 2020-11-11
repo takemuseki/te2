@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class MailboxPage {
   Widget page({
-    @required Widget roomListView,
+    @required Widget mailbox,
     @required Widget makeChatRoomButton,
   }) {
     return Scaffold(
       body: Center(
-        child: roomListView,
+        child: mailbox,
       ),
       floatingActionButton: makeChatRoomButton,
     );

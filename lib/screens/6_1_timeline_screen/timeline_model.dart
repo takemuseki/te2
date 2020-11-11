@@ -27,4 +27,15 @@ class TimelineModel {
       return e;
     }
   }
+  
+  Future<Map<String,dynamic>> getCard({@required String documentId,}) async{
+    try{
+      DocumentSnapshot result =  await firestoreService.getDocument(collectionName: "Cards", documentName: documentId,);
+      return result.data();
+    } catch (e){
+      print(e);
+      print("e");
+      return e;
+    }
+  }
 }

@@ -58,7 +58,10 @@ class OneselfModel {
       );
       final CollectionReference collectionReference =
           documentReference.collection("cards");
-      return await collectionReference.orderBy("timestamp").limit(10).get();
+      return await collectionReference
+          .orderBy("timestamp", descending: true)
+          .limit(10)
+          .get();
     } catch (e) {
       print("e");
       print(e);

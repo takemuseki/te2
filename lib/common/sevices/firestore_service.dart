@@ -113,8 +113,10 @@ class FirestoreService {
     @required String documentName,
     @required Map fieldMap,
   }) async {
+    print("updateDocument firestoreservice");
     final DocumentReference documentReference =
         fireStoreInstance.collection(collectionName).doc(documentName);
+    print(documentReference);
     return await documentReference.update(fieldMap);
   }
 }

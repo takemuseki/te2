@@ -97,6 +97,7 @@ class AuthModel {
         );
 
         final Map<String, dynamic> _emptyMap = Map<String, dynamic>();
+        final Map<String, dynamic> _myUidMap = {uid: uid};
         await firestoreService.makeDocument(
             collectionName: "Requests", documentName: uid, map: _emptyMap);
         await firestoreService.makeDocument(
@@ -106,9 +107,9 @@ class AuthModel {
         await firestoreService.makeDocument(
             collectionName: "Chats", documentName: uid, map: _emptyMap);
         await firestoreService.makeDocument(
-            collectionName: "Follows", documentName: uid, map: _emptyMap);
+            collectionName: "Follows", documentName: uid, map: _myUidMap);
         await firestoreService.makeDocument(
-            collectionName: "Followers", documentName: uid, map: _emptyMap);
+            collectionName: "Followers", documentName: uid, map: _myUidMap);
         print("SignUp完了！");
         return true;
       } else {

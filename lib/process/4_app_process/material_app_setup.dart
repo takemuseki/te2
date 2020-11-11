@@ -1,4 +1,3 @@
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:te2/common/theme/theme.dart';
@@ -6,6 +5,7 @@ import 'package:te2/main.dart';
 import 'package:te2/process/4_app_process/material_app_model.dart';
 import 'package:te2/screens/3_first_screen/first_model.dart';
 import 'package:te2/screens/5_home_screen/home_setup.dart';
+import 'package:te2/screens/account_screen/account_setup.dart';
 
 class MaterialAppSetup extends StatelessWidget {
   @override
@@ -36,20 +36,19 @@ class MaterialAppSetup extends StatelessWidget {
                   },
                 );
               }
-            /*
             case '/accountPage':
               {
-                final AccountInformation _accountInformation = settings.arguments;
+                final Map<String, dynamic> accountInfo = settings.arguments;
                 return PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => AccountPageSetup(
-                    accountInformation: _accountInformation,
+                  pageBuilder: (_, __, ___) => AccountSetup(
+                    accountInfo: accountInfo,
                   ),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     return FadeUpwardsPageTransitionsBuilder().buildTransitions(
                       MaterialPageRoute(
-                        builder: (context) => AccountPageSetup(
-                          accountInformation: _accountInformation,
+                        builder: (context) => AccountSetup(
+                          accountInfo: accountInfo,
                         ),
                       ),
                       context,
@@ -60,6 +59,7 @@ class MaterialAppSetup extends StatelessWidget {
                   },
                 );
               }
+            /*
             case '/chatPage':
               {
                 final ChatRoomInformation _chatRoomInformation =

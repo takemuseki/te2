@@ -64,20 +64,32 @@ class MaterialAppModel extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> newFollowersUidMap() async {
-    DocumentSnapshot documentSnapshot = await firestoreService.getDocument(
-        collectionName: "Followers", documentName: uid);
-    Map<String, dynamic> map = documentSnapshot.data();
-    followersUidMap = map;
-    return followersUidMap;
+    try {
+      print("newFollowersUidMap");
+
+      DocumentSnapshot documentSnapshot = await firestoreService.getDocument(
+          collectionName: "Followers", documentName: uid);
+      Map<String, dynamic> map = documentSnapshot.data();
+      followersUidMap = map;
+      print("newFollowersUidMap end");
+
+      return followersUidMap;
+    } catch (e) {
+      print(e);
+      print("newFollowersUidMap end");
+
+      return e;
+    }
   }
 
   Future<Map<String, dynamic>> newFollowsUidMap() async {
+    print("newFollowsUidMap");
     DocumentSnapshot documentSnapshot = await firestoreService.getDocument(
-        collectionName: "Timeline", documentName: uid);
+        collectionName: "Follows", documentName: uid);
     Map<String, dynamic> map = documentSnapshot.data();
-    followersUidMap = map;
-    return followersUidMap;
+    followsUidMap = map;
+    print(followsUidMap);
+    print("newFollowsUidMap end");
+    return followsUidMap;
   }
-
-  Future<void> updatefollowersUidMap() {}
 }

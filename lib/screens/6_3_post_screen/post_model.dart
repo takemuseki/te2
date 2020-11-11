@@ -10,6 +10,7 @@ class PostModel {
     @required this.uid,
   });
 
+  //Users内自分のdocumentにCardを追加する
   Future<dynamic> addCardToUsers({
     @required Map<String, dynamic> map,
   }) async {
@@ -29,6 +30,8 @@ class PostModel {
     }
   }
 
+  //Cardsにcardをaddする。
+  //DocumentIdをそれぞれのFollowerに追加する。
   //　todo ここの非同期処理の問題をどう解決するか。
   Future<dynamic> addCardToTimeline({
     @required Map<String, dynamic> map,
@@ -36,13 +39,28 @@ class PostModel {
   }) async {
     print("addCardToTimeline");
     try {
+      String documentId =
+          await firestoreService.addDocument(collectionName: "Cards", map: map);
+      if (documentId is Error) {
+        return documentId;
+      }
+      final Timestamp timestamp = Timestamp.now();
+      Map<String, dynamic> timelineMap = {
+        "timestamp": timestamp,
+        "document id": documentId
+      };
+      print(followerMapUid);
+      print("followerMapUid");
       followerMapUid.forEach((key, value) async {
         CollectionReference collectionReference = firestoreService
             .documentReference2(
                 collectionName: "Timeline", documentName: followerMapUid[key])
             .collection(followerMapUid[key]);
+
         await firestoreService.addDocument2(
-            collectionReference: collectionReference, map: map);
+          collectionReference: collectionReference,
+          map: timelineMap,
+        );
         print("for each end");
       });
       print("addCardToTimeline end");

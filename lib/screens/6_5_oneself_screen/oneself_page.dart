@@ -25,7 +25,6 @@ class OneselfPage {
             yetDialog(context: context);
             return;
           },
-          title: userName,
           leading: settingsButton,
           flexibleSpace: FlexibleSpaceBar(
             centerTitle: true,
@@ -68,7 +67,6 @@ class OneselfPage {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: userName,
         leading: settingsButton,
       ),
       body: CustomScrollView(

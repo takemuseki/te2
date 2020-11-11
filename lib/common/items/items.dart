@@ -63,6 +63,7 @@ class AccountInformation {
   }
 }
 
+
 //ChatRoomに画面遷移する時にsetupに渡す。
 // [表示したいチャットルームをAとする]
 //memberMapにAのmemberの情報を入れる。

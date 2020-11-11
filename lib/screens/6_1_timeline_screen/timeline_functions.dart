@@ -12,6 +12,12 @@ class TimelineFunctions {
     return await context.watch<TimelineModel>().getTimeline();
   }
 
+  Future<Map<String, dynamic>> getCard({
+    @required String documentId,
+  }) {
+    return context.read<TimelineModel>().getCard(documentId: documentId);
+  }
+
   List<QueryDocumentSnapshot> timelineSnapshotList() {
     return context.read<TimelineModel>().timelineSnapshotList;
   }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:te2/main.dart';
 import 'package:te2/process/4_app_process/material_app_model.dart';
-import 'package:te2/screens/6_4_mailbox_screen/mailbox_functions.dart';
-import 'package:te2/screens/6_4_mailbox_screen/mailbox_model.dart';
-import 'package:te2/screens/6_4_mailbox_screen/mailbox_view.dart';
+import 'package:te2/screens/6_2_mailbox_screen/mailbox_model.dart';
+import 'package:te2/screens/6_2_mailbox_screen/mailbox_view.dart';
 
 class MailboxSetup extends StatelessWidget {
   @override

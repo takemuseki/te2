@@ -34,6 +34,9 @@ class PostParts {
   }) {
     return TextFormField(
       controller: controller,
+      maxLength: 200,
+      autofocus: true,
+      autocorrect: true,
     );
   }
 

@@ -98,6 +98,13 @@ class OneselfParts {
     return Text("ロード中...");
   }
 
+  Future<Dialog> uploadWaiting() {
+    final Widget title = Text("画像をupload中です");
+    final Widget content = Text("uploadが終了すると反映されます");
+    return simpleDialog(
+        titleWidget: title, contentWidget: content, context: context);
+  }
+
   Widget cardListTile({
     @required String time,
     @required String sentence,

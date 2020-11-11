@@ -75,6 +75,7 @@ class OneselfContents {
               return null;
             } else if (result == true) {
               Map<String, dynamic> map = {};
+              parts.uploadWaiting();
               return functions.updateOneselfInfo(map: map);
             } else {
               return parts.uploadErrorDialog();

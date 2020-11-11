@@ -9,18 +9,38 @@ class TimelineParts {
     @required this.context,
   });
   Widget cardTile({
+    @required Widget child,
+  }) {
+    return Card(child: child);
+  }
+
+  Widget error() {
+    return ListTile(
+      title: Text("error"),
+    );
+    return Text("error");
+  }
+
+  Widget loading() {
+    return ListTile(
+      title: Center(
+        child: Text("loading"),
+      ),
+    );
+    return Center(child: Text("loading"));
+  }
+
+  Widget cardTileChild({
     @required String sentence,
     @required String datetime,
     @required String userName,
     @required Widget userImage,
   }) {
-    return Card(
-      child: ListTile(
-        title: Text(sentence),
-        leading: userImage,
-        trailing: Text(userName),
-        subtitle: Text(datetime),
-      ),
+    return ListTile(
+      title: Text(sentence),
+      leading: userImage,
+      trailing: Text(userName),
+      subtitle: Text(datetime),
     );
   }
 
