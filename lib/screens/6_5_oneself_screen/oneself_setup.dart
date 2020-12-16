@@ -10,6 +10,7 @@ class OneselfSetup extends StatelessWidget {
   Widget build(BuildContext context) {
     print("oneself setup");
     return Provider(
+      lazy: false,
       create: (context) {
         print("oneself model");
         return OneselfModel(

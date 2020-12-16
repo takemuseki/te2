@@ -129,6 +129,9 @@ class ActivityContents {
           print("text.isEmpty");
           return null;
         }
+        if (searchInputController.text == functions.userId()) {
+          return functions.toMyPage();
+        }
         print("searchButton onTap");
         dynamic result = await functions.searchFriendUserId(
           searchInputController: searchInputController,

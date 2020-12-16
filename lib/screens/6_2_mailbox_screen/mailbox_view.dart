@@ -7,6 +7,7 @@ import 'package:te2/screens/6_2_mailbox_screen/mailbox_parts.dart';
 class MailboxView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("'MailboxView");
     MailboxParts _parts = MailboxParts(context: context);
     MailboxFunctions _functions = MailboxFunctions(context: context);
     MailboxContents contents =
@@ -14,8 +15,8 @@ class MailboxView extends StatelessWidget {
     MailboxPage page = MailboxPage();
 
     return page.page(
-      mailbox: contents.mailbox(),
-      makeChatRoomButton: contents.makeRoomButton(),
+      mailbox: contents.mailboxStream(),
+      makeChatRoomButton: contents.showBottomSheetButton(),
     );
   }
 }

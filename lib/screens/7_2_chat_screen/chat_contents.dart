@@ -20,11 +20,9 @@ class ChatContents {
         print("stream builder builder");
         if (!snapshot.hasData) {
           return Text("loading");
+        } else if (snapshot.hasError) {
+          return Text("error");
         } else {
-          print("snapshot");
-          print(snapshot);
-          print(snapshot.data);
-          print(snapshot.data.documents);
           var listMessage = snapshot.data.documents;
           return ListView.builder(
             itemCount: listMessage.length,

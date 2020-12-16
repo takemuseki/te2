@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:te2/common/sevices/auth_service.dart';
 import 'package:te2/common/sevices/firestorage_service.dart';
 import 'package:te2/common/sevices/firestore_service.dart';
@@ -19,6 +22,7 @@ void main() async {
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class MyAppModel {
   final FirestoreService firestoreService = FirestoreService();

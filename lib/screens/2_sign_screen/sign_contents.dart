@@ -75,7 +75,7 @@ class SignContents {
         if (_result == "empty") {
           return parts.emptySignUpDialog();
         } else if (_result == true) {
-          return parts.successSignUpDialog();
+          return null;
         } else if (_result == "weakPassword") {
           return parts.weakPasswordDialog();
         } else if (_result == "emailAlready") {

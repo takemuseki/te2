@@ -11,6 +11,7 @@ class HomeContents {
   });
 
   Widget child() {
+    print("child home contents");
     return functions.child();
   }
 

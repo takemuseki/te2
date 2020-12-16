@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:te2/utils/dialog.dart';
@@ -7,19 +9,125 @@ class MailboxParts {
   final BuildContext context;
   MailboxParts({@required this.context});
 
-  Widget mailboxWaiting() {
-    return CircularProgressIndicator();
+  Widget bottomSheet({
+    @required dynamic bottomSheetList,
+    @required VoidCallback makeRoom,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        print("tap modal bottom sheet gesture detector");
+        // ModalBottomSheet を押した時には何もしないようにする
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        // ModalBottomSheet のどこを押してもラップした GestureDetector が
+        // 検知できるように、ラップした Container には色をつけておく
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Center(child: Text("トークルームに追加するメンバーを選択")),
+                Center(
+                  child: RaisedButton(
+                    child: Text("作成"),
+                    onPressed: makeRoom,
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: bottomSheetList,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget emptyMailbox() {
     return Text("mailboxが空です");
   }
 
-  Widget mailboxListTitleError() {
+  Widget followerListError() {
     return Text("エラー");
   }
 
-  Widget mailboxTile({
+  Widget followerListTile({
+    @required Widget followerListTileTitle,
+    @required Widget followerListTileLeading,
+    @required VoidCallback addUid,
+    @required VoidCallback deleteUid,
+  }) {
+    return FollowerListTile(
+      followerListTileLeading: followerListTileLeading,
+      followerListTileTitle: followerListTileTitle,
+      addUid: addUid,
+      deleteUid: deleteUid,
+    );
+  }
+
+  /*
+  Widget followerListTile({
+    @required Widget followerListTileTitle,
+    @required Widget followerListTileLeading,
+    @required VoidCallback addMember,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: InkWell(
+          onTap: addMember,
+          child: ListTile(
+            leading: followerListTileLeading,
+            title: followerListTileTitle,
+          ),
+        ),
+        elevation: 5,
+      ),
+    );
+  }
+
+   */
+
+  Widget followerListTileLeading({
+    @required String imageUrl,
+  }) {
+    print("userImage");
+    print(imageUrl);
+    print("imageUrl");
+    String initialText;
+    if (imageUrl == "") {
+      initialText = "No Image";
+    } else {
+      initialText = "Loading";
+    }
+    print(initialText);
+    print("initialText");
+    return CircularProfileAvatar(
+      imageUrl,
+      radius: 60,
+      initialsText: Text(
+        initialText,
+        style: TextStyle(fontSize: 20),
+      ),
+      borderColor: Theme.of(context).accentColor,
+      cacheImage: true,
+    );
+  }
+
+  Widget followerListTileTitle({
+    @required String followerName,
+  }) {
+    return Text(followerName);
+  }
+
+  Widget getFollowerMapError() {
+    return Text("followerの取得に失敗しました");
+  }
+
+  Widget mailboxListTile({
     @required Widget title,
     @required VoidCallback toChatRoom,
   }) {
@@ -33,13 +141,8 @@ class MailboxParts {
     );
   }
 
-  Widget makeRoomButton({
-    @required VoidCallback makeChatRoom,
-  }) {
-    return FloatingActionButton(
-      child: Icon(Icons.add),
-      onPressed: makeChatRoom,
-    );
+  Widget mailboxListTitleError() {
+    return Text("エラー");
   }
 
   Widget mailboxListTileTitle({
@@ -55,8 +158,25 @@ class MailboxParts {
     return Text(title);
   }
 
-  Widget followerListError() {
-    return Text("エラー");
+  Widget mailboxWaiting() {
+    return CircularProgressIndicator();
+  }
+
+  Widget makeRoomButton({
+    @required VoidCallback makeChatRoom,
+  }) {
+    return FloatingActionButton(
+      child: Icon(Icons.add),
+      onPressed: makeChatRoom,
+    );
+  }
+
+  Widget noFollower() {
+    return Text("followerがいません");
+  }
+
+  Future<Dialog> failureDialog() {
+    return errorDialog(context: context);
   }
 
   Future<Dialog> successDialog() {
@@ -67,89 +187,70 @@ class MailboxParts {
     );
   }
 
-  Future<Dialog> failureDialog() {
-    return errorDialog(context: context);
-  }
-
-  Widget followerListLeading({
-    @required String imageUrl,
+  Future<Dialog> failureMakeChatRoomDialog({
+    @required BuildContext context,
   }) {
-    return CircularProfileAvatar(
-      imageUrl,
-      radius: 60,
-      initialsText: Text(
-        "No image",
-        style: TextStyle(fontSize: 20),
-      ),
-      borderColor: Theme.of(context).accentColor,
-      cacheImage: true,
+    final Widget title = Text("エラー");
+    final Widget content = Text("チャットルームの作成に失敗しました");
+    return simpleDialog(
+      titleWidget: title,
+      contentWidget: content,
+      context: context,
     );
   }
+}
 
-  Widget followerListTileTitle({
-    @required String followerName,
-  }) {
-    return Text(followerName);
+class FollowerListTile extends StatefulWidget {
+  final Widget followerListTileLeading;
+  final Widget followerListTileTitle;
+  final VoidCallback addUid;
+  final VoidCallback deleteUid;
+
+  const FollowerListTile({
+    @required this.followerListTileLeading,
+    @required this.followerListTileTitle,
+    @required this.addUid,
+    @required this.deleteUid,
+  });
+  @override
+  _FollowerListTileState createState() => _FollowerListTileState();
+}
+
+class _FollowerListTileState extends State<FollowerListTile> {
+  List<Color> color = [
+    Colors.white,
+    Colors.amberAccent,
+  ];
+  int counter = 0;
+  void addCounter() {
+    setState(() {
+      counter++;
+      counter = counter % 2;
+    });
   }
 
-  Widget noFollower() {
-    return Text("followerがいません");
-  }
-
-  Widget getFollowerMapError() {
-    return Text("followerの取得に失敗しました");
-  }
-
-  Widget bottomSheet({
-    @required dynamic bottomSheetList,
-  }) {
-    return GestureDetector(
-      onTap: () {
-        print("tap modal bottom sheet gesture detector");
-        // ModalBottomSheet を押した時には何もしないようにする
-      },
-      child: Container(
-        height: MediaQuery.of(context).size.height * 4 / 5,
-        // ModalBottomSheet のどこを押してもラップした GestureDetector が
-        // 検知できるように、ラップした Container には色をつけておく
-        color: Colors.blue,
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("トークルームを作成"),
-                RaisedButton(
-                  child: Text("作成"),
-                  onPressed: () {
-                    return yetDialog(context: context);
-                  },
-                ),
-              ],
-            ),
-            Expanded(
-              child: bottomSheetList,
-            ),
-          ],
+  @override
+  Widget build(BuildContext context) {
+    Color tileColor = color[counter];
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        color: tileColor,
+        child: InkWell(
+          onTap: () {
+            if (counter == 0) {
+              widget.addUid();
+            } else {
+              widget.deleteUid();
+            }
+            return addCounter();
+          },
+          child: ListTile(
+            leading: widget.followerListTileLeading,
+            title: widget.followerListTileTitle,
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget followerListTile({
-    @required Widget followerListTileTitle,
-    @required Widget followerListTileLeading,
-  }) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          print("followerListTile onTap");
-        },
-        child: ListTile(
-          leading: followerListTileLeading,
-          title: followerListTileTitle,
-        ),
+        elevation: 5,
       ),
     );
   }

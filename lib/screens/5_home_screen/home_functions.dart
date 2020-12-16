@@ -11,7 +11,8 @@ class HomeFunctions {
   }
 
   Widget child() {
-    return context.select((HomeModel model) => model.page);
+    print("child home functions");
+    return context.watch<HomeModel>().page;
   }
 
   int currentIndex() {

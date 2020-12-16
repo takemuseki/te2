@@ -8,8 +8,10 @@ class FirstPage {
     @required Widget submitButton,
   }) {
     return Scaffold(
-      body: Container(
+      body: Align(
+        alignment: Alignment.center,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             title,
             sentence,

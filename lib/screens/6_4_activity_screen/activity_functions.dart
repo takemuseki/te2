@@ -51,13 +51,17 @@ class ActivityFunctions {
     @required TextEditingController searchInputController,
   }) async {
     print("searchFriendUserIdが押されました");
-    if (searchInputController.text ==
-        context.read<MaterialAppModel>().oneselfInfoMap["user id"]) {
-      return context.read<HomeModel>().changeCurrentIndex(i: 4);
-    }
     return await context.read<ActivityModel>().searchFriendUserId(
           friendUserId: searchInputController.text,
         );
+  }
+
+  String userId() {
+    return context.read<MaterialAppModel>().oneselfInfoMap["user id"];
+  }
+
+  void toMyPage() {
+    return context.read<HomeModel>().changeCurrentIndex(i: 4);
   }
 
   Future<void> sendFriendRequest({

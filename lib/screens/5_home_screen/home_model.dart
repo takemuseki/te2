@@ -6,25 +6,12 @@ import 'package:te2/screens/6_4_activity_screen/activity_setup.dart';
 import 'package:te2/screens/6_5_oneself_screen/oneself_setup.dart';
 
 class HomeModel extends ChangeNotifier {
+  final BuildContext context;
+  HomeModel({
+    @required this.context,
+  });
   dynamic page = PostSetup();
   int currentIndex = 2;
-
-  /*final List _pages = [
-    FriendPageSetup(),
-    TimeLineSetup(),
-    PostPageSetup(),
-    ChatListPageSetup(),
-    MyPageSetup(),
-  ];
-
-    final List _pages = [
-    TestPageSetup(text: "timeline"),
-    TestPageSetup(text: "chat"),
-    TestPageSetup(text: "post"),
-    TestPageSetup(text: "activity"),
-    OneselfSetup(),
-  ];
-   */
 
   final Map _pageMap = {
     0: TimelineSetup(),
@@ -34,15 +21,8 @@ class HomeModel extends ChangeNotifier {
     4: OneselfSetup(),
   };
 
-  /*
-  void changeIndex({@required int i}) {
-    page = _pageMap[i];
-    notifyListeners();
-  }
-
-   */
-
   void changeCurrentIndex({@required int i}) {
+    print("changeCurrentIndex");
     currentIndex = i;
     page = _pageMap[i];
     notifyListeners();

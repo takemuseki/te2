@@ -13,7 +13,7 @@ class HomeSetup extends StatelessWidget {
       create: (context) {
         context.read<MaterialAppModel>().newFollowersUidMap();
         context.read<MaterialAppModel>().newFollowsUidMap();
-        return HomeModel();
+        return HomeModel(context: context);
       },
       builder: (context, child) {
         return HomeView();

@@ -15,62 +15,49 @@ class MailboxModel {
     @required this.uid,
   });
 
-  Future<dynamic> makeChatRoom() async {
+  Future<dynamic> makeChatRoom({
+    @required Map<String, dynamic> memberMap,
+  }) async {
     try {
-      print("makeChatRoom");
+      print("makeChatRoom model");
+      Map<String, dynamic> addMap = {"members uid": memberMap};
       //todo　友達を選択する実装を取り入れる。今はいったんtest1ユーザーとのトークルームを作成する。
-      final Map<String, dynamic> _map = {
-        "members": {
-          "ZQGmWGBPlmVZOimJLoorrczWFHB2": "test1",
-          "zhszSIVEwBZhNU2XOvOc0WRbxcR2": "test3",
-        },
-      };
-      print(_map);
-      print("addResult");
       String _addResult = await firestoreService.addDocument(
-        collectionName: "Chat Room Members",
-        map: _map,
+        collectionName: "Chat Rooms",
+        map: addMap,
       );
+      print(_addResult);
+      print("_addResult");
       if (_addResult is Error) {
         return _addResult;
       }
-      print(_addResult);
-      final Map<String, dynamic> _map2 = {
-        "ZQGmWGBPlmVZOimJLoorrczWFHB2": _addResult,
+      final Map<String, dynamic> documentIdMap = {
+        _addResult: _addResult,
       };
-      print(_map2);
-      print("map2");
-      final Map<String, dynamic> _map3 = {
-        "zhszSIVEwBZhNU2XOvOc0WRbxcR2": _addResult,
-      };
-      print(_map3);
-      print("_map3");
+      print(documentIdMap);
+      print("documentIdMap");
       //todo ここにチャットルームに追加するcardの情報を入れたい
       Map<String, dynamic> _cardMap = {};
-      await firestoreService.makeDocument(
-        collectionName: "Chat Rooms",
-        documentName: _addResult,
-        map: _map,
-      );
-      print(1);
-      await firestoreService.updateDocument(
-        collectionName: "Chats",
-        documentName: uid,
-        fieldMap: _map2,
-      );
-      print(2);
-      await firestoreService.updateDocument(
-        collectionName: "Chats",
-        documentName: "ZQGmWGBPlmVZOimJLoorrczWFHB2",
-        fieldMap: _map3,
-      );
-      print(3);
+      for (String key in memberMap.keys) {
+        await firestoreService.updateDocument(
+          collectionName: "Chats",
+          documentName: key,
+          fieldMap: documentIdMap,
+        );
+      }
       return true;
     } catch (e) {
       print(e);
       print("model make chat room error");
       return e;
     }
+  }
+
+  Stream<DocumentSnapshot> mailboxStream() {
+    return firestoreService.fireStoreInstance
+        .collection("Chats")
+        .doc(uid)
+        .snapshots();
   }
 
   Future<Map<String, dynamic>> getMailbox() async {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -70,15 +72,18 @@ class OneselfContents {
         return parts.userImage(
           imageUrl: functions.imageUrl(),
           addImage: () async {
-            dynamic result = await functions.uploadUserImage();
+            dynamic result = await functions.selectImage();
             if (result == "null") {
               return null;
-            } else if (result == true) {
-              Map<String, dynamic> map = {};
-              parts.uploadWaiting();
-              return functions.updateOneselfInfo(map: map);
+            } else if (result is Map<String, File>) {
+              //todo update中どうするか。
+              dynamic result2 =
+                  await functions.uploadUserImage(uploadImageMap: result);
+              if (result2 == false) {
+                return parts.uploadErrorDialog();
+              }
             } else {
-              return parts.uploadErrorDialog();
+              return parts.selectErrorDialog();
             }
           },
         );

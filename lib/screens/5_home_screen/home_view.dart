@@ -10,7 +10,7 @@ import 'package:te2/screens/5_home_screen/home_parts.dart';
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("'HomePageViewModel");
+    print("'HomeView");
     final parts = HomeParts(context: context);
     final functions = HomeFunctions(context: context);
     final contents = HomeContents(

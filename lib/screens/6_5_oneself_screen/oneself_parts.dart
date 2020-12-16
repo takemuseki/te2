@@ -10,6 +10,12 @@ class OneselfParts {
     @required VoidCallback addImage,
   }) {
     print("userImage");
+    String initialText;
+    if (imageUrl == "") {
+      initialText = "No Image";
+    } else {
+      initialText = "Loading";
+    }
 
     return Stack(
       children: [
@@ -19,7 +25,7 @@ class OneselfParts {
             imageUrl,
             radius: 60,
             initialsText: Text(
-              "No image",
+              initialText,
               style: TextStyle(fontSize: 20),
             ),
             borderColor: Theme.of(context).accentColor,
@@ -130,5 +136,9 @@ class OneselfParts {
       contentWidget: content,
       context: context,
     );
+  }
+
+  Future<Dialog> selectErrorDialog() {
+    return errorDialog(context: context);
   }
 }

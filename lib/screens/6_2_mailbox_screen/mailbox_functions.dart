@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:te2/common/items/items.dart';
 import 'package:te2/process/4_app_process/material_app_model.dart';
+import 'package:te2/screens/5_home_screen/home_model.dart';
 import 'package:te2/screens/6_2_mailbox_screen/mailbox_model.dart';
 import 'package:te2/utils/yet.dart';
 
@@ -12,7 +14,9 @@ class MailboxFunctions {
   });
 
   Map<String, dynamic> followersUidMap() {
-    return context.read<MaterialAppModel>().followersUidMap;
+    Map<String, dynamic> map = context.read<MaterialAppModel>().followersUidMap;
+    map.remove(context.read<MailboxModel>().uid);
+    return map;
   }
 
   Future<dynamic> getFollowersUidMap() async {
@@ -22,6 +26,10 @@ class MailboxFunctions {
   Future<dynamic> getMailbox() async {
     print("functions getMailbox");
     return await context.watch<MailboxModel>().getMailbox();
+  }
+
+  Stream<DocumentSnapshot> mailboxStream() {
+    return context.watch<MailboxModel>().mailboxStream();
   }
 
   Future<dynamic> getRoomMembers({
@@ -39,8 +47,11 @@ class MailboxFunctions {
     return await context.read<MailboxModel>().getUserInfo(memberUid: userId);
   }
 
-  Future<bool> makeChatRoom() async {
-    var _result = await context.read<MailboxModel>().makeChatRoom();
+  Future<bool> makeChatRoom({
+    @required Map<String, dynamic> memberMap,
+  }) async {
+    var _result =
+        await context.read<MailboxModel>().makeChatRoom(memberMap: memberMap);
     print(_result);
     if (_result == true) {
       return true;
@@ -79,5 +90,13 @@ class MailboxFunctions {
       '/chatPage',
       arguments: ChatRoomInformation(chatRoomId: chatRoomId),
     );
+  }
+
+  Map<String, dynamic> myUidMap() {
+    Map<String, dynamic> map = {
+      context.read<MailboxModel>().uid:
+          context.read<MaterialAppModel>().oneselfInfoMap["user name"],
+    };
+    return map;
   }
 }

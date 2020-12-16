@@ -15,6 +15,8 @@ class MaterialAppSetup extends StatelessWidget {
     return ChangeNotifierProvider(
       lazy: false,
       create: (context) => MaterialAppModel(
+        fireStorageService: context.read<MyAppModel>().fireStorageService,
+        imageSelectorService: context.read<MyAppModel>().imageSelectorService,
         firestoreService: context.read<MyAppModel>().firestoreService,
         uid: context.read<FirstModel>().uid,
         oneselfInfoMap: context.read<FirstModel>().userMap,

@@ -6,12 +6,38 @@ class MailboxContents {
   final MailboxParts parts;
   final MailboxFunctions functions;
   final BuildContext context;
+  final Map<String, dynamic> memberUidMap = {};
   MailboxContents({
     @required this.parts,
     @required this.functions,
     @required this.context,
   });
 
+  Widget mailboxStream() {
+    print("mailboxStream");
+    return StreamBuilder(
+      stream: functions.mailboxStream(),
+      builder: (context, snapshot) {
+        print("stream builder builder");
+        if (!snapshot.hasData) {
+          return parts.mailboxWaiting();
+        } else if (snapshot.hasError) {
+          print("error");
+          print(snapshot);
+          print(snapshot.data);
+          return parts.followerListError();
+        } else {
+          print("else");
+          print(snapshot.data);
+          return mailboxBuilder(
+            mailboxMap: snapshot.data.data(),
+          );
+        }
+      },
+    );
+  }
+
+  /*
   Widget mailbox() {
     print("mailbox");
     //
@@ -35,6 +61,8 @@ class MailboxContents {
     );
   }
 
+   */
+
   Widget mailboxBuilder({
     @required Map<String, dynamic> mailboxMap,
   }) {
@@ -44,11 +72,12 @@ class MailboxContents {
       return parts.emptyMailbox();
     }
     return ListView.builder(
+      physics: BouncingScrollPhysics(),
       itemCount: mailboxMap.length,
       itemBuilder: (context, i) {
         String key = mailboxMap.keys.elementAt(i);
         print(mailboxMap);
-        return parts.mailboxTile(
+        return parts.mailboxListTile(
           title: mailboxListTileTitle(
             chatRoomId: key,
           ),
@@ -92,13 +121,14 @@ class MailboxContents {
     );
   }
 
-  Widget makeRoomButton() {
+  Widget showBottomSheetButton() {
     print("makeRoomButtonContents");
     //
     return parts.makeRoomButton(
       makeChatRoom: () async {
-        print("make chat room tap");
-        return bottomSheet();
+        memberUidMap.addAll(functions.myUidMap());
+        await bottomSheet();
+        memberUidMap.clear();
       },
     );
   }
@@ -125,8 +155,24 @@ class MailboxContents {
               final Map<String, dynamic> map = functions.followersUidMap();
               return parts.bottomSheet(
                 bottomSheetList: bottomSheetList(
-                  followersMap: map,
+                  followersUidMap: map,
                 ),
+                makeRoom: () async {
+                  if (memberUidMap.length == 1) {
+                    return null;
+                  }
+                  bool result =
+                      await functions.makeChatRoom(memberMap: memberUidMap);
+                  if (result == false) {
+                    return parts.failureMakeChatRoomDialog(context: context);
+                  }
+                  if (result == true) {
+                    print(true);
+                    print(memberUidMap);
+                  }
+                  print("functions.backMailbox");
+                  return Navigator.pop(context);
+                },
               );
             }
           },
@@ -137,48 +183,56 @@ class MailboxContents {
 
   //bottomSheet内に表示されるfollowerのlistView。
   Widget bottomSheetList({
-    @required Map<String, dynamic> followersMap,
+    @required Map<String, dynamic> followersUidMap,
   }) {
     print("bottomSheetList");
     //もしfollowersMapの数が0ならlistViewではなくテキストを返す。
-    if (followersMap.length == 0) {
+    if (followersUidMap.length == 0) {
       return parts.noFollower();
     }
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: followersMap.length,
+      itemCount: followersUidMap.length,
       itemBuilder: (context, int i) {
-        String key = followersMap.keys.elementAt(i);
+        String key = followersUidMap.keys.elementAt(i);
         return followerListTile(
-          userId: followersMap[key],
+          uid: followersUidMap[key],
         );
       },
     );
   }
 
   Widget followerListTile({
-    @required String userId,
+    @required String uid,
   }) {
     print("followerListTile");
     return FutureBuilder(
-      future: functions.getUserInfo(userId: userId),
+      future: functions.getUserInfo(userId: uid),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return parts.followerListError();
         } else {
-          print("FutureBuilder else");
-          print(snapshot);
-          print(snapshot.data);
           Map<String, dynamic> followerInfoMap = snapshot.data;
           return parts.followerListTile(
             followerListTileTitle: parts.followerListTileTitle(
-              followerName: followerInfoMap["user name"],
-            ),
-            followerListTileLeading: parts.followerListLeading(
-              imageUrl: followerInfoMap["image"],
-            ),
+                followerName: followerInfoMap["user name"]),
+            followerListTileLeading: parts.followerListTileLeading(
+                imageUrl: followerInfoMap["image"]),
+            addUid: () {
+              print("addUid contents");
+              Map<String, dynamic> map = {uid: followerInfoMap["user name"]};
+              memberUidMap.addAll(map);
+              print(memberUidMap);
+              print("addUid contents end");
+            },
+            deleteUid: () {
+              print("deleteUid contents");
+              memberUidMap.remove(uid);
+              print(memberUidMap);
+              print("deleteUid contents end");
+            },
           );
         }
       },

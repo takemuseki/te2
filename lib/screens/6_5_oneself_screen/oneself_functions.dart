@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -40,27 +42,26 @@ class OneselfFunctions {
     return context.watch<MaterialAppModel>().oneselfCardsMap;
   }
 
-  Future<dynamic> uploadUserImage() async {
-    dynamic _result = await context.read<OneselfModel>().uploadUserImage();
-    if (_result == "null") {
-      return "null";
-    } else if (_result == true) {
+  Future<dynamic> selectImage() async {
+    return context.read<MaterialAppModel>().selectImage();
+  }
+
+  Future<dynamic> uploadUserImage({
+    @required Map<String, File> uploadImageMap,
+  }) async {
+    dynamic _result = await context.read<MaterialAppModel>().uploadUserImage(
+          imageMap: uploadImageMap,
+        );
+    if (_result == true) {
       return true;
     } else {
-      return "uploadError";
+      return false;
     }
   }
 
   Future<dynamic> updateOneselfInfo({
     @required Map<String, dynamic> map,
   }) async {
-    Map<String, dynamic> _map = map;
-    if (context.read<OneselfModel>().downloadUrlTemp.isNotEmpty) {
-      _map.addAll({
-        "image": context.read<OneselfModel>().downloadUrlTemp,
-      });
-      context.read<OneselfModel>().emptyTheUrl();
-    }
     await context.read<MaterialAppModel>().updateOneselfInfoMap(map: map);
   }
 }

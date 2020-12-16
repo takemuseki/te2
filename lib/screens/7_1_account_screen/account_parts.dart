@@ -1,4 +1,5 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:te2/utils/dialog.dart';
 
@@ -46,6 +47,14 @@ class AccountParts {
     @required String imageUrl,
   }) {
     print("userImage");
+    print(imageUrl);
+    print("imageUrl");
+    String initialText;
+    if (imageUrl == "") {
+      initialText = "No Image";
+    } else {
+      initialText = "Loading";
+    }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -53,7 +62,7 @@ class AccountParts {
         imageUrl,
         radius: 60,
         initialsText: Text(
-          "No image",
+          initialText,
           style: TextStyle(fontSize: 20),
         ),
         borderColor: Theme.of(context).accentColor,

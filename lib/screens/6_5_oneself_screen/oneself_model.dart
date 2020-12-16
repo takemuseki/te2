@@ -11,7 +11,6 @@ class OneselfModel {
   final FireStorageService fireStorageService;
   final ImageSelectorService imageSelectorService;
   final String uid;
-  String downloadUrlTemp = "";
 
   OneselfModel({
     @required this.firestoreService,
@@ -26,27 +25,7 @@ class OneselfModel {
   //downloadUrlはerrorもしくはexceptionの場合、そのまま返る。
   //fileが選択されなかった場足nullが返る。
   //この関数内で何かしらのエラーが生じた場合エラーが返る。
-  Future<dynamic> uploadUserImage() async {
-    try {
-      File uploadFile = await imageSelectorService.getPickGalleryImage();
-      final fileName = fileNameMilliseconds(
-        fileName: uid,
-      );
-      if (uploadFile != null) {
-        final String downloadUrl =
-            await fireStorageService.uploadFileDownloadUrl(
-          fileName: fileName,
-          uploadFile: uploadFile,
-        );
-        downloadUrlTemp = downloadUrl;
-        return true;
-      } else {
-        return "null";
-      }
-    } catch (e) {
-      return e;
-    }
-  }
+
 
   Future<QuerySnapshot> getCardMap() async {
     print("model getCardMap");
@@ -69,7 +48,5 @@ class OneselfModel {
     }
   }
 
-  void emptyTheUrl() {
-    downloadUrlTemp = "";
-  }
+
 }
